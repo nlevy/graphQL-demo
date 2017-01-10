@@ -1,2 +1,4 @@
-# campaign_fk_poc
 # graphQL-demo
+
+step one: album query, without songs
+
