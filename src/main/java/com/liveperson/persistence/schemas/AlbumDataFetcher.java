@@ -24,7 +24,6 @@ public class AlbumDataFetcher implements DataFetcher {
     private AlbumTransformer transformer;
 
     public AlbumDataFetcher() {
-        System.out.println();
     }
 
     @Override
