@@ -22,7 +22,7 @@ public class AlbumObject {
     private String artist;
 
     @GraphQLField
-    @GraphQLDescription("Realse year")
+    @GraphQLDescription("Release year")
     private Integer year;
 
     @GraphQLField
