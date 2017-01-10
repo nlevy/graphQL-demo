@@ -1,5 +1,6 @@
 package com.liveperson.persistence;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.liveperson.persistence.entities.Album;
@@ -9,10 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,7 +42,7 @@ public class MusicDaoImpl implements  MusicDao {
     @Override
     public Collection<Album> getAlbums(String artist, Optional<OrderBy> orderBy) {
         return albums.containsKey(artist)
-                ? albums.get(artist).values()
+                ? orderResults(albums.get(artist).values(), orderBy)
                 : null;
     }
 
@@ -70,4 +68,31 @@ public class MusicDaoImpl implements  MusicDao {
         return gson.fromJson(songsString, new TypeToken<List<Song>>() {}.getType());
     }
 
+    private List<Album> orderResults(Collection<Album> values, Optional<OrderBy> orderBy) {
+        ArrayList<Album> list = Lists.newArrayList(values);
+        if (orderBy.isPresent()) {
+           list.sort(AlbumComparator.orderBy(orderBy.get()));
+        }
+        return list;
+    }
+
+    private static class AlbumComparator implements Comparator<Album> {
+
+        private OrderBy orderBy;
+
+        public AlbumComparator(OrderBy orderBy) {
+            this.orderBy = orderBy;
+        }
+
+        public static AlbumComparator orderBy(OrderBy orderBy) {
+            return new AlbumComparator(orderBy);
+        }
+
+        @Override
+        public int compare(Album o1, Album o2) {
+            return OrderBy.NAME.equals(orderBy)
+                ? o1.getName().compareTo(o2.getName())
+                : o1.getYear().compareTo(o2.getYear());
+        }
+    }
 }
