@@ -27,6 +27,9 @@ public class SongTransformer {
      * @return GraphQL representation of the song
      */
     public SongObject transform(Song song) {
+        if (song == null) {
+            return null;
+        }
         return new SongObject(song.getName(), song.getAlbumId(), song.getTrackNumber(), song.getId());
     }
 
