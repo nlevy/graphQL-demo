@@ -26,6 +26,9 @@ public class AlbumTransformer {
      * @return GraphQL representation of the album
      */
     public AlbumObject transform(Album album) {
+        if (album == null) {
+            return null;
+        }
         return new AlbumObject(album.getName(), album.getArtist(), album.getYear(), album.getId());
     }
 
