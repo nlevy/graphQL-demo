@@ -1,11 +1,11 @@
 import SONGS from './songs.json';
-import ALBUMS from './albums.json';
 
 import {
     GraphQLObjectType,
     GraphQLSchema,
     GraphQLString,
     GraphQLInt,
+    GraphQLList
     } from 'graphql';
 
 const AlbumType = new GraphQLObjectType ({
@@ -43,7 +43,7 @@ const SongType = new GraphQLObjectType({
     },
     album:  {
         type: AlbumType,
-        resolve: (root, args, context) => getAlbum(root.albumId)
+        resolve: (root, args, context) => context.albumLoader.load(root.albumId)
     }
 })
 });
@@ -53,7 +53,7 @@ const QueryType = new GraphQLObjectType({
     name: 'Query',
     description: 'root query',
     fields: () => ({
-    list: {
+    songs: {
         type: new GraphQLList(SongType),
         description: 'all songs',
         resolve: (root, args, context) => getSongs()
@@ -63,11 +63,6 @@ const QueryType = new GraphQLObjectType({
 
 function getSongs() {
     return SONGS;
-}
-
-function getAlbum(id) {
-    console.log("Fetching album " + id);
-    return ALBUMS.find(album => album.id === id);
 }
 
 export default new GraphQLSchema({
