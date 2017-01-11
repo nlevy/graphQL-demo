@@ -1,8 +1,8 @@
 package com.liveperson.persistence.schemas;
 
-import graphql.annotations.GraphQLDescription;
-import graphql.annotations.GraphQLField;
-import graphql.annotations.GraphQLName;
+import graphql.annotations.*;
+
+import java.util.List;
 
 /**
  * GraphQL object of an album
@@ -29,11 +29,19 @@ public class AlbumObject {
     @GraphQLDescription("Album unique ID")
     private Integer id;
 
-    public AlbumObject(String name, String artist, Integer year, Integer id) {
+    @GraphQLField
+    @GraphQLName("songs")
+    @GraphQLDescription("Songs contained in this album")
+    @GraphQLDataFetcher(SongsDataFetcher.class)
+    @GraphQLType(SongTypeFunction.class)
+    private List<Integer> songIds;
+
+    public AlbumObject(String name, String artist, Integer year, Integer id,List<Integer> songIds) {
         this.name = name;
         this.artist = artist;
         this.year = year;
         this.id = id;
+        this.songIds = songIds;
     }
 
     public String getName() {
@@ -68,6 +76,14 @@ public class AlbumObject {
         this.id = id;
     }
 
+    public List<Integer> getSongIds() {
+        return songIds;
+    }
+
+    public void setSongIds(List<Integer> songIds) {
+        this.songIds = songIds;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,6 +94,7 @@ public class AlbumObject {
         if (artist != null ? !artist.equals(that.artist) : that.artist != null) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (songIds != null ? !songIds.equals(that.songIds) : that.songIds != null) return false;
         if (year != null ? !year.equals(that.year) : that.year != null) return false;
 
         return true;
@@ -89,6 +106,7 @@ public class AlbumObject {
         result = 31 * result + (artist != null ? artist.hashCode() : 0);
         result = 31 * result + (year != null ? year.hashCode() : 0);
         result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (songIds != null ? songIds.hashCode() : 0);
         return result;
     }
 }
