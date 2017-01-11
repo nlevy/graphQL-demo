@@ -6,6 +6,7 @@ import {
     GraphQLSchema,
     GraphQLString,
     GraphQLInt,
+    GraphQLList
     } from 'graphql';
 
 const AlbumType = new GraphQLObjectType ({
@@ -53,7 +54,7 @@ const QueryType = new GraphQLObjectType({
     name: 'Query',
     description: 'root query',
     fields: () => ({
-    list: {
+    songs: {
         type: new GraphQLList(SongType),
         description: 'all songs',
         resolve: (root, args, context) => getSongs()
