@@ -4,6 +4,7 @@ import com.liveperson.persistence.entities.Album;
 import com.liveperson.persistence.entities.Song;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,6 +26,14 @@ public interface MusicDao {
      * @return the requested song, or null if not existing
      */
     Song getSong(int id);
+
+    /**
+     * returns a list of songs
+     *
+     * @param id the id of the song
+     * @return the requested song, or null if not existing
+     */
+    List<Song> getSongs(List<Integer> id);
 
     /**
      * returns all albums of the requested artist

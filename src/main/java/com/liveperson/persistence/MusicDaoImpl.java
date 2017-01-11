@@ -40,6 +40,11 @@ public class MusicDaoImpl implements  MusicDao {
     }
 
     @Override
+    public List<Song> getSongs(List<Integer> ids) {
+        return ids.stream().map(this::getSong).collect(Collectors.toList());
+    }
+
+    @Override
     public Collection<Album> getAlbums(String artist, Optional<OrderBy> orderBy) {
         return albums.containsKey(artist)
                 ? orderResults(albums.get(artist).values(), orderBy)

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 /**
  * Transformer for album entities
+ *
  * @author nirl
  * @since {version}
  */
@@ -26,7 +27,7 @@ public class AlbumTransformer {
      * @return GraphQL representation of the album
      */
     public AlbumObject transform(Album album) {
-        return new AlbumObject(album.getName(), album.getArtist(), album.getYear(), album.getId());
+        return new AlbumObject(album.getName(), album.getArtist(), album.getYear(), album.getId(), album.getSongIds());
     }
 
     /**
