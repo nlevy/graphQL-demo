@@ -1,0 +1,11 @@
+curl -d '{"query": "{ album (artist: \"David Bowie\" album: \"Lodger\" ) { name year songs {name trackNumber} } }"}' -X POST --header "Content-Type:application/json" --header "Accepts:application/json" http://localhost:8080/graphql |json_pp
+
+Run the query from before, without songs - everything is backward compatible:
+
+curl -d '{"query": "{ album (artist: \"David Bowie\" album: \"Lodger\" ) { name year } }"}' -X POST --header "Content-Type:application/json" --header "Accepts:application/json" http://localhost:8080/graphql |json_pp
+
+GraphQL has inner introspection feature to expose the data objects and schemas:
+
+curl -d '{"query" : "{ __type (name: \"song\") { name fields {name description type {name}}}}"} ' -X POST --header "Content-Type:application/json" --header "Accepts:application/json" http://localhost:8080/graphql |json_pp
+
+curl -d '{"query" : "{ __schema { queryType { fields { name args { name type { kind }}}}}} "} ' -X POST --header "Content-Type:application/json" --header "Accepts:application/json" http://localhost:8080/graphql |json_pp
