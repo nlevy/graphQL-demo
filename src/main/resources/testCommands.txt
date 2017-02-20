@@ -1,0 +1,3 @@
+curl -d '{"query": "{ album (artist: \"David Bowie\" album: \"Low\" ) { name year } }"}' -X POST --header "Content-Type:application/json" --header "Accepts:application/json" http://localhost:8080/graphql |json_pp
+
+curl -d '{"query": "{ album (artist: \"David Bowie\" album: \"Heroes\" ) { name year artist } }"}' -X POST --header "Content-Type:application/json" --header "Accepts:application/json" http://localhost:8080/graphql |json_pp
